@@ -7,17 +7,18 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class DriverFactory {
 
-    private static Map<Long, WebDriver> drivers = new HashMap<Long, WebDriver>();
+    private static Map<String, WebDriver> drivers = new HashMap<String, WebDriver>();
 
     public static void createWebDriverInstance() {
-        Long l = Thread.currentThread().getId();
-
+        String thread = Thread.currentThread().getName();
+        System.out.println("Creating WebDriver instance: " + thread);
         System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
         WebDriver driver = new ChromeDriver();
-        drivers.put(l, driver);
+        drivers.put(thread, driver);
     }
 
     public static WebDriver getDriver() {
-        return drivers.get(Thread.currentThread().getId());
+        System.out.println("Getting Thread Instance: " + Thread.currentThread().getName());
+        return drivers.get(Thread.currentThread().getName());
     }
 }

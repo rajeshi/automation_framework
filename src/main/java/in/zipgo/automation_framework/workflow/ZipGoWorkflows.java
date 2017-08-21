@@ -8,7 +8,7 @@ public interface ZipGoWorkflows {
 
     public SignInPage openSignInPage();
 
-    public LoginPage navigateToLoginPage();
+    public LoginPage navigateToLoginPage(SignInPage signInPage);
 
-    public <T extends BasePage> T loginToTheDashboardPage(LoginPage loginPage, String username, String password);
+    public <T extends BasePage> T loginToTheSystem(LoginPage loginPage, String username, String password, Class<T> clazz);
 }
