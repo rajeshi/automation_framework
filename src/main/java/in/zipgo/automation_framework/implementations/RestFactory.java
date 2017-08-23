@@ -1,23 +1,39 @@
 package in.zipgo.automation_framework.implementations;
 
-import in.zipgo.automation_framework.base.ToolsFactory;
-import org.openqa.selenium.WebDriver;
+import in.zipgo.automation_framework.rest.modules.Authentication;
+import in.zipgo.automation_framework.rest.modules.BasicMediaTypes;
+import in.zipgo.automation_framework.rest.modules.CustomObjectMapper;
+import io.restassured.RestAssured;
+import io.restassured.config.EncoderConfig;
+import io.restassured.config.ObjectMapperConfig;
+import io.restassured.config.RestAssuredConfig;
+import io.restassured.http.Headers;
+import io.restassured.mapper.ObjectMapper;
+import io.restassured.specification.RequestSpecification;
 
-public class RestFactory implements ToolsFactory<WebDriver> {
+public class RestFactory {
 
-    @Override
-    public void initialize() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    final RequestSpecification requestSpec;
+
+    public RestFactory(BasicMediaTypes mediaType, Authentication auth, Headers headers) {
+        RequestSpecification requestSpec = RestAssured.given()
+                .config(createConfiguration(new CustomObjectMapper()))
+                .relaxedHTTPSValidation()
+                .header("Accept", mediaType.getAccept())
+                .header("Content-Type", mediaType.getContentType())
+                .headers(headers);
+        this.requestSpec = auth.createRequest(requestSpec);
     }
 
-    @Override
-    public WebDriver getInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public RequestSpecification getRequestSpec() {
+        return requestSpec;
     }
 
-    @Override
-    public void close() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private RestAssuredConfig createConfiguration(ObjectMapper mapper) {
+        ObjectMapperConfig omc = ObjectMapperConfig.objectMapperConfig().defaultObjectMapper(mapper);
+        RestAssuredConfig restConfig = RestAssuredConfig.newConfig()
+                .objectMapperConfig(omc)
+                .encoderConfig(EncoderConfig.encoderConfig().defaultContentCharset("UTF-8"));
+        return restConfig;
     }
-
 }
