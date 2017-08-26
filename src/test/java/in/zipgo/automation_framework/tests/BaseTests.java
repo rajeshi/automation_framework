@@ -12,7 +12,6 @@ public class BaseTests extends Assert {
     public void setupTest() {
         DriverFactory.createWebDriverInstance();
         DriverFactory.getDriver().manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        
     }
 
     @AfterMethod

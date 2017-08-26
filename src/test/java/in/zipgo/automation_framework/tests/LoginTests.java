@@ -1,5 +1,6 @@
 package in.zipgo.automation_framework.tests;
 
+import in.zipgo.automation_framework.base.DriverFactory;
 import in.zipgo.automation_framework.pages.web.DashboardPage;
 import in.zipgo.automation_framework.pages.web.LoginPage;
 import in.zipgo.automation_framework.pages.web.SignInPage;
@@ -7,7 +8,6 @@ import in.zipgo.automation_framework.utils.Excel;
 import in.zipgo.automation_framework.utils.ExcelContext;
 import in.zipgo.automation_framework.workflow.ZipGoWorkFlowImplementations;
 import in.zipgo.automation_framework.workflow.ZipGoWorkflows;
-import javax.swing.JOptionPane;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -26,6 +26,11 @@ public class LoginTests extends BaseTests {
             signInPage = (SignInPage) zgw.loginToTheSystem(loginPage, username, password, SignInPage.class);
             assertTrue(signInPage.getErrorMessage().contains("Username or password did not match"));
         }
+    }
+
+    @Test
+    public void sampleMobileTest() {
+        DriverFactory.getDriver().getPageSource();
     }
 
     @DataProvider(name = "testData", parallel = true)
