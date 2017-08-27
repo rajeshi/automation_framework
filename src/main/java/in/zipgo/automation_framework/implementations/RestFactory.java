@@ -20,8 +20,11 @@ public class RestFactory {
                 .config(createConfiguration(new CustomObjectMapper()))
                 .relaxedHTTPSValidation()
                 .header("Accept", mediaType.getAccept())
-                .header("Content-Type", mediaType.getContentType())
-                .headers(headers);
+                .header("Content-Type", mediaType.getContentType());
+        if (headers == null) {
+        } else {
+            requestSpec.headers(headers);
+        }
         this.requestSpec = auth.createRequest(requestSpec);
     }
 

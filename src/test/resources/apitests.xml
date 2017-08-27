@@ -4,9 +4,9 @@
     <listeners>
         <listener class-name="in.zipgo.automation_framework.base.ExtentReportListener"/>
     </listeners>
-    <test name="Mobile Tests for Android" thread-count="1">
+    <test name="API Test Automation" thread-count="1">
         <classes>
-            <class name="in.zipgo.automation_framework.tests.MobileTests"/>
+            <class name="in.zipgo.automation_framework.tests.ApiTests"/>
         </classes>
     </test>
 </suite>

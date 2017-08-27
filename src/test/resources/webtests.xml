@@ -4,7 +4,7 @@
     <listeners>
         <listener class-name="in.zipgo.automation_framework.base.ExtentReportListener"/>
     </listeners>
-    <test name="WebTests" thread-count="2">
+    <test name="Web Tests" thread-count="2">
         <classes>
             <class name="in.zipgo.automation_framework.tests.WebTests"/>
         </classes>
