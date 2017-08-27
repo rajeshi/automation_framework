@@ -13,7 +13,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
@@ -28,7 +27,6 @@ public class DriverFactory {
     public static void createWebDriverInstance() {
         String browserName = Configurations.BROWSER;
         String testType = Configurations.TEST_TYPE;
-
         createWebDriverInstance(browserName, testType);
     }
 
@@ -91,15 +89,16 @@ public class DriverFactory {
             switch (browserName.toUpperCase()) {
                 case "ANDROID":
                     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "ANDROID");
-                    capabilities.setCapability(MobileCapabilityType.APP, "E:\\Projects\\Upwork\\ZipGo\\customer-beta-debug.apk");
+                    capabilities.setCapability(MobileCapabilityType.APP, Configurations.APPIUM_APP);
                     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "ZY2232CH28");
                     try {
                         AppiumServer.startServer(getAppiumUrl().toString());
-                        driver = new AndroidDriver<WebElement>(getAppiumUrl(), capabilities);
+                        driver = new AndroidDriver<>(getAppiumUrl(), capabilities);
                     } catch (SessionNotCreatedException | UnreachableBrowserException e) {
                         e.printStackTrace();
                         throw e;
                     }
+                    drivers.put(thread, driver);
                     break;
 
                 case "ANDROID_WEB":
@@ -111,6 +110,7 @@ public class DriverFactory {
                         e.printStackTrace();
                         throw e;
                     }
+                    drivers.put(thread, driver);
                     break;
                 case "IOS":
 
@@ -122,6 +122,7 @@ public class DriverFactory {
                         e.printStackTrace();
                         throw e;
                     }
+                    drivers.put(thread, driver);
                     break;
                 case "IOS_WEB":
                     try {
@@ -131,10 +132,10 @@ public class DriverFactory {
                         e.printStackTrace();
                         throw e;
                     }
+                    drivers.put(thread, driver);
                     break;
             }
         }
-        drivers.put(thread, driver);
     }
 
     private static URL getAppiumUrl() {

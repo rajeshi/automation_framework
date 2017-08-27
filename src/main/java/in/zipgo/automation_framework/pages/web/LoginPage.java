@@ -1,7 +1,5 @@
 package in.zipgo.automation_framework.pages.web;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {

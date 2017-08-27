@@ -9,6 +9,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <zipgo.web.url>https://beta.zipgo.in/sign_in</zipgo.web.url>
+        <zipgo.browser>ANDROID</zipgo.browser>
+        <zipgo.remote>false</zipgo.remote>
+        <zipgo.test_type>MOBILE</zipgo.test_type>
+        <zipgo.appium_node_path>C:\Program Files\Appium\node.exe</zipgo.appium_node_path>
+        <zipgo.appium_node_js_path>C:\Users\Rajesh\AppData\Roaming\npm\node_modules\appium\lib\main.js</zipgo.appium_node_js_path>
+        <zipgo.appium_hub_url>http://127.0.0.1:4723/wd/hub</zipgo.appium_hub_url>
+        <zipgo.appium.appium_app>E:\Projects\Upwork\ZipGo\driver-beta-debug.apk</zipgo.appium.appium_app>
+        <zipgo.suite.xml>src/test/resources/webtests.xml</zipgo.suite.xml>
     </properties>
     <dependencies>
         <dependency>
@@ -73,20 +82,79 @@
             <version>2.9.0.pr3</version>
         </dependency>
 
+        <dependency>
+            <groupId>ru.yandex.qatools.ashot</groupId>
+            <artifactId>ashot</artifactId>
+            <version>1.5.2</version>
+        </dependency>
 
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.5.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>zip-with-dependencies</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <descriptors>
+                                <descriptor>src/main/assembly/zip.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
                 <configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>${zipgo.suite.xml}</suiteXmlFile>
                     </suiteXmlFiles>
                     <forkCount>2</forkCount>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
