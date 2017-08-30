@@ -2,6 +2,7 @@ package in.zipgo.automation_framework.base;
 
 import in.zipgo.automation_framework.converters.Har2JmxConverter;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.Connection;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import java.io.File;
@@ -87,12 +88,12 @@ public class DriverFactory {
                     proxy = new BrowserMobProxyServer();
                     proxy.start(0);
                     Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
-                    
+
                     capabilities = new DesiredCapabilities();
                     capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
                     proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
                     proxy.newHar("zipgo.har");
-                    
+
                     System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
                     capabilities = DesiredCapabilities.chrome();
                     options = new ChromeOptions();
@@ -100,7 +101,7 @@ public class DriverFactory {
                     capabilities.setCapability(ChromeOptions.CAPABILITY, options);
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilities.setPlatform(Platform.ANY);
-                    
+
                     if (Configurations.REMOTE) {
                         driver = new RemoteWebDriver(capabilities);
                     } else {
@@ -121,7 +122,6 @@ public class DriverFactory {
                     } else {
                         driver = new ChromeDriver(capabilities);
                     }
-                    break;
             }
         } else {
             switch (browserName.toUpperCase()) {
@@ -152,11 +152,26 @@ public class DriverFactory {
                     }
                     drivers.put(thread, driver);
                     break;
+                case "ANDROID_NO_CONNECTION":
+                    capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "ANDROID");
+                    capabilities.setCapability(MobileCapabilityType.APP, Configurations.APPIUM_APP);
+                    capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "ZY2232CH28");
+
+                    try {
+                        AppiumServer.startServer(getAppiumUrl().toString());
+                        driver = new AndroidDriver<>(getAppiumUrl(), capabilities);
+                        ((AndroidDriver<WebElement>) driver).setConnection(Connection.NONE);
+                    } catch (SessionNotCreatedException | UnreachableBrowserException e) {
+                        e.printStackTrace();
+                        throw e;
+                    }
+                    drivers.put(thread, driver);
+                    break;
                 case "IOS":
                     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "IOS");
                     try {
                         AppiumServer.startServer(getAppiumUrl().toString());
-                        driver = new IOSDriver<WebElement>(getAppiumUrl(), capabilities);
+                        driver = new IOSDriver<>(getAppiumUrl(), capabilities);
                     } catch (SessionNotCreatedException | UnreachableBrowserException e) {
                         e.printStackTrace();
                         throw e;

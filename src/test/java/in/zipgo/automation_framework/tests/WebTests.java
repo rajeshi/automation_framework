@@ -1,5 +1,6 @@
 package in.zipgo.automation_framework.tests;
 
+import in.zipgo.automation_framework.base.TestGroups;
 import in.zipgo.automation_framework.pages.web.DashboardPage;
 import in.zipgo.automation_framework.pages.web.LoginPage;
 import in.zipgo.automation_framework.pages.web.SignInPage;
@@ -12,7 +13,7 @@ import org.testng.annotations.Test;
 
 public class WebTests extends BaseTests {
 
-    @Test(dataProvider = "testData")
+    @Test(dataProvider = "testData", groups = {TestGroups.SMOKE})
     public void loginTests(String username, String password, String isLoggedIn) {
         ZipGoWorkflows zgw = new ZipGoWorkFlowImplementations();
         SignInPage signInPage = zgw.openSignInPage();
