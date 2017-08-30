@@ -9,15 +9,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <zipgo.web.url>https://beta.zipgo.in/sign_in</zipgo.web.url>
-        <zipgo.browser>ANDROID</zipgo.browser>
+        <zipgo.web.url>http://beta.zipgo.in/sign_in</zipgo.web.url>
+        <zipgo.browser>PERFORMANCE</zipgo.browser>
         <zipgo.remote>false</zipgo.remote>
-        <zipgo.test_type>MOBILE</zipgo.test_type>
+        <zipgo.test_type>WEB</zipgo.test_type>
         <zipgo.appium_node_path>C:\Program Files\Appium\node.exe</zipgo.appium_node_path>
         <zipgo.appium_node_js_path>C:\Users\Rajesh\AppData\Roaming\npm\node_modules\appium\lib\main.js</zipgo.appium_node_js_path>
         <zipgo.appium_hub_url>http://127.0.0.1:4723/wd/hub</zipgo.appium_hub_url>
         <zipgo.appium.appium_app>E:\Projects\Upwork\ZipGo\driver-beta-debug.apk</zipgo.appium.appium_app>
         <zipgo.suite.xml>src/test/resources/webtests.xml</zipgo.suite.xml>
+        <zipgo.capture.http_traffic>true</zipgo.capture.http_traffic>
     </properties>
     <dependencies>
         <dependency>
@@ -35,7 +36,7 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
-            <version>3.4.2</version>
+            <version>2.14.3</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
         <dependency>
@@ -73,8 +74,7 @@
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
             <version>2.0</version>
-        </dependency>
-        
+        </dependency>        
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -86,6 +86,17 @@
             <groupId>ru.yandex.qatools.ashot</groupId>
             <artifactId>ashot</artifactId>
             <version>1.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.lightbody.bmp</groupId>
+            <artifactId>browsermob-core</artifactId>
+            <version>2.1.4</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20170516</version>
         </dependency>
 
     </dependencies>

@@ -27,7 +27,7 @@ public class WebTests extends BaseTests {
         }
     }
 
-    @DataProvider(name = "testData", parallel = true)
+    @DataProvider(name = "testData", parallel = false)
     public static Object[][] getTestData() {
         ExcelContext context = new ExcelContext();
         context.setExcelFile("testData/Web.xlsx");

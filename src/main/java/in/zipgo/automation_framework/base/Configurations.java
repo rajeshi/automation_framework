@@ -16,6 +16,7 @@ public class Configurations {
     public static String APPIUM_NODE_JS_PATH = getProp().getProperty("zipgo.appium_node_js_path");//"C:\\Users\\Rajesh\\AppData\\Roaming\\npm\\node_modules\\appium\\lib\\main.js";
     public static String APPIUM_HUB_URL = getProp().getProperty("zipgo.appium_hub_url");//"http://127.0.0.1:4723/wd/hub";
     public static String APPIUM_APP = getProp().getProperty("zipgo.appium.appium_app");//"E:\\Projects\\Upwork\\ZipGo\\driver-beta-debug.apk";
+    public static boolean CAPTURE_HTTP_TRAFFIC = Boolean.parseBoolean(getProp().getProperty("zipgo.capture.http_traffic"));
 
     private static Properties prop;
     private static HashMap<String, String> urlMap;

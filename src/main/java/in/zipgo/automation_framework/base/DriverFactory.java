@@ -1,13 +1,22 @@
 package in.zipgo.automation_framework.base;
 
+import in.zipgo.automation_framework.converters.Har2JmxConverter;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
+import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import net.lightbody.bmp.BrowserMobProxy;
+import net.lightbody.bmp.BrowserMobProxyServer;
+import net.lightbody.bmp.client.ClientUtil;
+import net.lightbody.bmp.core.har.Har;
+import net.lightbody.bmp.proxy.CaptureType;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.Proxy;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -24,6 +33,8 @@ public class DriverFactory {
 
     private static Map<String, WebDriver> drivers = new HashMap<String, WebDriver>();
 
+    private static BrowserMobProxy proxy;
+
     public static void createWebDriverInstance() {
         String browserName = Configurations.BROWSER;
         String testType = Configurations.TEST_TYPE;
@@ -35,6 +46,7 @@ public class DriverFactory {
         WebDriver driver = null;
         DesiredCapabilities capabilities = new DesiredCapabilities();
         ChromeOptions options = null;
+
         if (testType.equalsIgnoreCase("WEB")) {
             switch (browserName.toUpperCase()) {
                 case "CHROME":
@@ -68,6 +80,32 @@ public class DriverFactory {
                 case "IE":
                     System.setProperty("webdriver.ie.driver", "D:\\MicrosoftWebDriver.exe");
                     driver = new InternetExplorerDriver();
+
+                    drivers.put(thread, driver);
+                    break;
+                case "PERFORMANCE":
+                    proxy = new BrowserMobProxyServer();
+                    proxy.start(0);
+                    Proxy seleniumProxy = ClientUtil.createSeleniumProxy(proxy);
+                    
+                    capabilities = new DesiredCapabilities();
+                    capabilities.setCapability(CapabilityType.PROXY, seleniumProxy);
+                    proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
+                    proxy.newHar("zipgo.har");
+                    
+                    System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
+                    capabilities = DesiredCapabilities.chrome();
+                    options = new ChromeOptions();
+                    options.addArguments("test-type", "start-maximized", "no-default-browser-check", "--disable-extensions");
+                    capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+                    capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
+                    capabilities.setPlatform(Platform.ANY);
+                    
+                    if (Configurations.REMOTE) {
+                        driver = new RemoteWebDriver(capabilities);
+                    } else {
+                        driver = new ChromeDriver(capabilities);
+                    }
                     drivers.put(thread, driver);
                     break;
                 default:
@@ -91,6 +129,7 @@ public class DriverFactory {
                     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "ANDROID");
                     capabilities.setCapability(MobileCapabilityType.APP, Configurations.APPIUM_APP);
                     capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "ZY2232CH28");
+
                     try {
                         AppiumServer.startServer(getAppiumUrl().toString());
                         driver = new AndroidDriver<>(getAppiumUrl(), capabilities);
@@ -103,6 +142,7 @@ public class DriverFactory {
 
                 case "ANDROID_WEB":
                     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "ANDROID");
+
                     try {
                         AppiumServer.startServer(getAppiumUrl().toString());
                         driver = new AndroidDriver<WebElement>(getAppiumUrl(), capabilities);
@@ -113,7 +153,6 @@ public class DriverFactory {
                     drivers.put(thread, driver);
                     break;
                 case "IOS":
-
                     capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "IOS");
                     try {
                         AppiumServer.startServer(getAppiumUrl().toString());
@@ -149,5 +188,14 @@ public class DriverFactory {
 
     public static WebDriver getDriver() {
         return drivers.get(Thread.currentThread().getName());
+    }
+
+    public static void getHttpTraffic() throws IOException {
+        if (Configurations.BROWSER.equals("PERFORMANCE")) {
+            Har har = proxy.getHar();
+            proxy.stop();
+            Har2JmxConverter converter = new Har2JmxConverter();
+            converter.generateJmxFile(har);
+        }
     }
 }

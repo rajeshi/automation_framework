@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
+import net.lightbody.bmp.BrowserMobProxy;
 import org.apache.commons.io.FileUtils;
 import org.testng.Assert;
 import org.testng.ITestResult;
@@ -15,6 +16,8 @@ import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 
 public class BaseTests extends Assert {
+
+    public BrowserMobProxy proxy;
 
     @BeforeMethod
     public void setupTest() {
@@ -26,6 +29,7 @@ public class BaseTests extends Assert {
     public void tearDownTest(ITestResult itr) throws IOException {
         if (DriverFactory.getDriver() == null) {
         } else {
+            DriverFactory.getHttpTraffic();
             if (itr.isSuccess()) {
             } else {
                 Screenshot screenshot = new AShot()
