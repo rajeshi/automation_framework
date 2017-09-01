@@ -17,6 +17,7 @@ public class Configurations {
     public static String APPIUM_HUB_URL = getProp().getProperty("zipgo.appium_hub_url");//"http://127.0.0.1:4723/wd/hub";
     public static String APPIUM_APP = getProp().getProperty("zipgo.appium.appium_app");//"E:\\Projects\\Upwork\\ZipGo\\driver-beta-debug.apk";
     public static boolean CAPTURE_HTTP_TRAFFIC = Boolean.parseBoolean(getProp().getProperty("zipgo.capture.http_traffic"));
+    public static long TIME_OUT_SECONDS = Long.parseLong(getProp().getProperty("zipgo.timeout.seconds"));
 
     private static Properties prop;
     private static HashMap<String, String> urlMap;
