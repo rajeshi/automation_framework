@@ -47,4 +47,7 @@ mvn clean install
 * This should generate run the test and create a har file and create a test.har file in E:(If you do not have a E Drive, then the test will fail) (Will be fixed in my next release)
 
 ## How to create you scripts
-## --- TODO ---
+* Here is the folder structure:
+
+![Folder Structure](/images/folder_structure.PNG)
+
