@@ -41,7 +41,7 @@ The Test Automation Framework allows you to create the tests for:
  * Firefox:	https://github.com/mozilla/geckodriver/releases
 * Place these exe's on the D: of your machine (If you are using Linux, this won't work, I am going to make this path configurable in the next framework release)
 * Run the command:
-````shell
+```
 mvn clean install
 ```
 * This should generate run the test and create a har file and create a test.har file in E:(If you do not have a E Drive, then the test will fail) (Will be fixed in my next release)
