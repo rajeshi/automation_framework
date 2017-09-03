@@ -59,7 +59,7 @@ public class DriverFactory {
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilities.setPlatform(Platform.ANY);
                     if (Configurations.REMOTE) {
-                        driver = new RemoteWebDriver(capabilities);
+                        driver = new RemoteWebDriver(new URL(Configurations.SELENIUM_GRID_URL + "&threadCount=10&browser=chrome"), capabilities);
                     } else {
                         driver = new ChromeDriver(capabilities);
                     }
@@ -71,7 +71,7 @@ public class DriverFactory {
                     capabilities.setCapability("marionette", true);
 
                     if (Configurations.REMOTE) {
-                        driver = new RemoteWebDriver(capabilities);
+                        driver = new RemoteWebDriver(new URL(Configurations.SELENIUM_GRID_URL + "&threadCount=10&browser=firefox"), capabilities);
                     } else {
                         driver = new FirefoxDriver();
                     }
@@ -103,7 +103,7 @@ public class DriverFactory {
                     capabilities.setPlatform(Platform.ANY);
 
                     if (Configurations.REMOTE) {
-                        driver = new RemoteWebDriver(capabilities);
+                        driver = new RemoteWebDriver(new URL(Configurations.SELENIUM_GRID_URL + "&threadCount=10&browser=chrome"), capabilities);
                     } else {
                         driver = new ChromeDriver(capabilities);
                     }
@@ -118,7 +118,7 @@ public class DriverFactory {
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilities.setPlatform(Platform.ANY);
                     if (Configurations.REMOTE) {
-                        driver = new RemoteWebDriver(new URL(Configurations.SELENIUM_GRID_URL+"&threadCount=10&browser=chrome"), capabilities);
+                        driver = new RemoteWebDriver(new URL(Configurations.SELENIUM_GRID_URL + "&threadCount=10&browser=chrome"), capabilities);
                     } else {
                         driver = new ChromeDriver(capabilities);
                     }
