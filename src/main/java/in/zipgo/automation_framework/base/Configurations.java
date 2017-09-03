@@ -18,6 +18,9 @@ public class Configurations {
     public static String APPIUM_APP = getProp().getProperty("zipgo.appium.appium_app");//"E:\\Projects\\Upwork\\ZipGo\\driver-beta-debug.apk";
     public static boolean CAPTURE_HTTP_TRAFFIC = Boolean.parseBoolean(getProp().getProperty("zipgo.capture.http_traffic"));
     public static long TIME_OUT_SECONDS = Long.parseLong(getProp().getProperty("zipgo.timeout.seconds"));
+    public static String CHROME_DRIVER_EXE = getProp().getProperty("zipgo.chrome.driver");
+    public static String FIREFOX_DRIVER_EXE = getProp().getProperty("zipgo.gecko.driver");
+    public static String IE_DRIVER_EXE = getProp().getProperty("zipgo.ie.driver");
 
     private static Properties prop;
     private static HashMap<String, String> urlMap;

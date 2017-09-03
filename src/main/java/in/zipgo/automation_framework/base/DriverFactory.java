@@ -5,7 +5,6 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.Connection;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,7 +50,8 @@ public class DriverFactory {
         if (testType.equalsIgnoreCase("WEB")) {
             switch (browserName.toUpperCase()) {
                 case "CHROME":
-                    System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
+                    System.out.println(Configurations.CHROME_DRIVER_EXE);
+                    System.setProperty("webdriver.chrome.driver", Configurations.CHROME_DRIVER_EXE);
                     capabilities = DesiredCapabilities.chrome();
                     options = new ChromeOptions();
                     options.addArguments("test-type", "start-maximized", "no-default-browser-check", "--disable-extensions");
@@ -66,7 +66,7 @@ public class DriverFactory {
                     drivers.put(thread, driver);
                     break;
                 case "FIREFOX":
-                    System.setProperty("webdriver.gecko.driver", "D:\\geckodriver.exe");
+                    System.setProperty("webdriver.gecko.driver", Configurations.FIREFOX_DRIVER_EXE);
                     capabilities = DesiredCapabilities.firefox();
                     capabilities.setCapability("marionette", true);
 
@@ -79,7 +79,7 @@ public class DriverFactory {
                     drivers.put(thread, driver);
                     break;
                 case "IE":
-                    System.setProperty("webdriver.ie.driver", "D:\\MicrosoftWebDriver.exe");
+                    System.setProperty("webdriver.ie.driver", Configurations.IE_DRIVER_EXE);
                     driver = new InternetExplorerDriver();
 
                     drivers.put(thread, driver);
@@ -94,7 +94,7 @@ public class DriverFactory {
                     proxy.enableHarCaptureTypes(CaptureType.REQUEST_CONTENT, CaptureType.RESPONSE_CONTENT);
                     proxy.newHar("zipgo.har");
 
-                    System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
+                    System.setProperty("webdriver.chrome.driver", Configurations.CHROME_DRIVER_EXE);
                     capabilities = DesiredCapabilities.chrome();
                     options = new ChromeOptions();
                     options.addArguments("test-type", "start-maximized", "no-default-browser-check", "--disable-extensions");
@@ -110,7 +110,7 @@ public class DriverFactory {
                     drivers.put(thread, driver);
                     break;
                 default:
-                    System.setProperty("webdriver.chrome.driver", "D:\\chromedriver.exe");
+                    System.setProperty("webdriver.chrome.driver", Configurations.CHROME_DRIVER_EXE);
                     capabilities = DesiredCapabilities.chrome();
                     options = new ChromeOptions();
                     options.addArguments("test-type", "start-maximized", "no-default-browser-check", "--disable-extensions");
