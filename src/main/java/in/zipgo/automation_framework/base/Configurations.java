@@ -24,6 +24,7 @@ public class Configurations {
 
     private static Properties prop;
     private static HashMap<String, String> urlMap;
+    public static String SELENIUM_GRID_URL=getProp().getProperty("zipgo.hub.url");
 
     private static Properties getProp() {
 

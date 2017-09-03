@@ -35,13 +35,13 @@ public class DriverFactory {
 
     private static BrowserMobProxy proxy;
 
-    public static void createWebDriverInstance() {
+    public static void createWebDriverInstance() throws MalformedURLException {
         String browserName = Configurations.BROWSER;
         String testType = Configurations.TEST_TYPE;
         createWebDriverInstance(browserName, testType);
     }
 
-    public static void createWebDriverInstance(String browserName, String testType) {
+    public static void createWebDriverInstance(String browserName, String testType) throws MalformedURLException {
         String thread = Thread.currentThread().getName();
         WebDriver driver = null;
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -118,7 +118,7 @@ public class DriverFactory {
                     capabilities.setCapability(CapabilityType.ACCEPT_SSL_CERTS, true);
                     capabilities.setPlatform(Platform.ANY);
                     if (Configurations.REMOTE) {
-                        driver = new RemoteWebDriver(capabilities);
+                        driver = new RemoteWebDriver(new URL(Configurations.SELENIUM_GRID_URL+"&threadCount=10&browser=chrome"), capabilities);
                     } else {
                         driver = new ChromeDriver(capabilities);
                     }

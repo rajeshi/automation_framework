@@ -10,7 +10,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <zipgo.web.url>http://beta.zipgo.in/sign_in</zipgo.web.url>
-        <zipgo.browser>PERFORMANCE</zipgo.browser>
+        <zipgo.browser>CHROME</zipgo.browser>
         <zipgo.remote>false</zipgo.remote>
         <zipgo.test_type>WEB</zipgo.test_type>
         <zipgo.appium_node_path>C:\Program Files\Appium\node.exe</zipgo.appium_node_path>
@@ -18,8 +18,9 @@
         <zipgo.appium_hub_url>http://127.0.0.1:4723/wd/hub</zipgo.appium_hub_url>
         <zipgo.appium.appium_app>E:\Projects\Upwork\ZipGo\driver-beta-debug.apk</zipgo.appium.appium_app>
         <zipgo.suite.xml>src/test/resources/webtests.xml</zipgo.suite.xml>
-        <zipgo.capture.http_traffic>true</zipgo.capture.http_traffic>
+        <zipgo.capture.http_traffic>false</zipgo.capture.http_traffic>
         <zipgo.timeout.seconds>30</zipgo.timeout.seconds>
+        <zipgo.hub.url>http://172.31.20.106:4444/grid/admin/AutomationTestRunServlet?uuid=testRun1</zipgo.hub.url>
     </properties>
     <dependencies>
         <dependency>
