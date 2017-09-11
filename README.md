@@ -41,7 +41,7 @@ The Test Automation Framework allows you to create the tests for:
  * Firefox:	https://github.com/mozilla/geckodriver/releases
 * Place the respective distributions in the folder of your choice. After this, follow the following steps:
 	* Navigate to your .m2 folder.
-		* For Windows, this should be under C:\Users\<Your_Account_Name>\.m2
+		* For Windows, this should be under C:\Users\<Your_Account_Name>\\.m2
 		* For Linux, this should be under ~/.m2 folder.
 	* Create a file settings.xml
 	* Next the following script inside your code:
@@ -205,7 +205,7 @@ If you notice the way <i>loginToAsDriver()</i> method is written, it allows you 
 1. Reduction of StaleElementException
 1. Better Readability of the code.
 
-## Writing your tests
+## Writing your Web & Mobile tests
 Now that we have differentiated the Interaction Layer from the Business Layer, the next step is to combine the different workflows from the Business Layers into a test with various data and behavioral configurations. This will allow:
 1. Writing tests assuming the business workflows as an abstract which would reduce your maintenance efforts in case of additional workflows which might come up as a change in the feature. The test might not need any update in case of minor changes.
 1. Any failures in the page elements need to be dealt in the Interaction Layer thus reducing the maintainability drastically
@@ -236,5 +236,43 @@ Here is an example of how to write your tests with a datadriven approach:
         Excel excelObj = new Excel(context);
         String[][] testData = excelObj.getData("username", "password", "isLoggedIn");
         return testData;
+    }
+```
+
+## Writing an API Test
+The REST API tests can be tested using this framework. It is supported using rest-assured api which allows you to:
+* Define your own Serialization/Deserialization logic
+* Define your own Authentication Scheme
+	* Supports:
+		* Basic Authentication
+		* Digest Authentication
+		* Preemptive Authentication
+		* oAuth
+In order to write the tests, you need to firstly do the following
+* Create the Data Structures for each of your endpoints (This could be a manual task based on the examples. Or we can create data structures using the either the swagger file or the json schema that is created)
+* Create the Test Data using the Enums which will implement the interface Supplier
+* Finally write your test as follows:
+```
+@Test
+    public void sampleApiTests() {
+        Authentication auth = new DefaultAuthentication(new AuthContext());
+        RestManager manager = new RestManager(BasicMediaTypes.JSON, auth, null);
+
+        Session session = SessionEnums.VALID_SESSION_INFO.getData();
+        
+        Response response = manager.post("https://beta.zipgo.in", "/sessions/connect", session);
+        assertEquals(response.statusCode(), 200, "Something went wrong with the request");
+        MemberResponse memResp = response.as(MemberResponse.class);
+        String ssoToken = memResp.getSsoToken();
+
+        List<Header> headerArr = new ArrayList<>();
+        Header authHeader = new Header("Authorization", ssoToken);
+        headerArr.add(authHeader);
+        Headers headers = new Headers(headerArr);
+        manager = new RestManager(BasicMediaTypes.JSON, auth, headers);
+        response = manager.get("https://beta.zipgo.in", "/route_trips");
+        assertEquals(response.statusCode(), 200, "Something went wrong with the request");
+        List<Route> routes = response.as(List.class);
+        assertTrue(routes.size() > 10, "Not enough routes created");
     }
 ```
