@@ -39,7 +39,33 @@ The Test Automation Framework allows you to create the tests for:
  * Chrome:	https://sites.google.com/a/chromium.org/chromedriver/downloads
  * Edge:	https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/
  * Firefox:	https://github.com/mozilla/geckodriver/releases
-* Place these exe's on the D: of your machine (If you are using Linux, this won't work, I am going to make this path configurable in the next framework release)
+* Place the respective distributions in the folder of your choice. After this, follow the following steps:
+	* Navigate to your .m2 folder.
+		* For Windows, this should be under C:\Users\<Your_Account_Name>\.m2
+		* For Linux, this should be under ~/.m2 folder.
+	* Create a file settings.xml
+	* Next the following script inside your code:
+	```
+	<settings xmlns="http://maven.apache.org/SETTINGS/1.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
+		<profiles>
+			<profile>
+				<id>local-properties</id>
+				<activation>
+					<activeByDefault>true</activeByDefault>
+				</activation>
+				<properties>
+					<zipgo.chrome.driver>PATH_TO_THE_EXECUTABLE</zipgo.chrome.driver>
+					<zipgo.gecko.driver>PATH_TO_THE_EXECUTABLE</zipgo.gecko.driver>
+					<zipgo.ie.driver>PATH_TO_THE_EXECUTABLE</zipgo.ie.driver>
+				</properties>
+			</profile>
+		</profiles> 
+		<activeProfiles>
+			<activeProfile>local-properties</activeProfile>
+		</activeProfiles>
+	</settings>
+	```
 * Run the command:
 ```
 mvn clean install
