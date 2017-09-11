@@ -16,7 +16,7 @@ The Test Automation Framework allows you to create the tests for:
 * RESTFul APIs
 
 ## Framework Block Diagram
-## ---TODO---
+![Framework Block Diagram](/images/Framework_Design.PNG)
 
 ## Pre-requisite Tools and Technologies
 * Java JDK 1.8 Above

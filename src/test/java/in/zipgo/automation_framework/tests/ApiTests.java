@@ -1,5 +1,6 @@
 package in.zipgo.automation_framework.tests;
 
+import in.zipgo.automation_framework.enums.SessionEnums;
 import in.zipgo.automation_framework.managers.api.RestManager;
 import in.zipgo.automation_framework.request.data.Session;
 import in.zipgo.automation_framework.response.data.MemberResponse;
@@ -23,16 +24,8 @@ public class ApiTests extends Assert {
         Authentication auth = new DefaultAuthentication(new AuthContext());
         RestManager manager = new RestManager(BasicMediaTypes.JSON, auth, null);
 
-        Session session = new Session();
-        session.setOauthType("facebook");
-        session.setOauthId("1234567890");
-        session.setOauthToken("mnbvcxzlkjhgfdsapoiuytrewq");
-        session.setOauthCity("Jakarta");
-        session.setOauthBirthDate("1987-07-27");
-        session.setOs("Android");
-        session.setToken("qwertyuiopasdfghjklzxcvbnm");
-        session.setAppVersion("0.5");
-
+        Session session = SessionEnums.VALID_SESSION_INFO.getData();
+        
         Response response = manager.post("https://beta.zipgo.in", "/sessions/connect", session);
         assertEquals(response.statusCode(), 200, "Something went wrong with the request");
         MemberResponse memResp = response.as(MemberResponse.class);
